@@ -25,7 +25,7 @@ example: # Create this repo as an example deployment
 	@argocd login localhost:8080 --insecure
 	@argocd app create example \
 		--repo `git config --get remote.origin.url | sed -e 's|^.*:|https://github.com/|g'` \
-		--path example \
+		--path guestbook \
 		--dest-namespace default \
 		--dest-server in-cluster
 	@argocd app get example
