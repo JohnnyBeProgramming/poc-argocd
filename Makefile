@@ -27,7 +27,7 @@ login: # Create this repo as an example deployment
 example: # Create this repo as an example deployment
 	@argocd app create guestbook \
 		--repo `git config --get remote.origin.url | sed -e 's|^.*:|https://github.com/|g'` \
-		--path examples/guestbook \
+		--path guestbook \
 		--dest-namespace default \
 		--dest-server in-cluster
 	@argocd app get guestbook
