@@ -21,13 +21,11 @@ update-password: # Change the admin password
 	@argocd login localhost:8080 --insecure
 	@argocd account update-password
 
-login: # Create this repo as an example deployment
-	@argocd login localhost:8080 --insecure
-
 example: # Create this repo as an example deployment
-	@argocd app create guestbook \
+	@argocd login localhost:8080 --insecure
+	@argocd app create example \
 		--repo `git config --get remote.origin.url | sed -e 's|^.*:|https://github.com/|g'` \
-		--path guestbook \
+		--path example \
 		--dest-namespace default \
 		--dest-server in-cluster
-	@argocd app get guestbook
+	@argocd app get example
