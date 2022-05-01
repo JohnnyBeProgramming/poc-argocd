@@ -22,10 +22,9 @@ update-password: # Change the admin password
 	@argocd account update-password
 
 example: # Create this repo as an example deployment
-	@argocd login localhost:8080 --insecure
 	@argocd app create example \
 		--repo `git config --get remote.origin.url | sed -e 's|^.*:|https://github.com/|g'` \
-		--path guestbook \
+		--path "examples/guestbook" \
 		--dest-namespace default \
-		--dest-server in-cluster
+		--dest-server 'https://kubernetes.default.svc'
 	@argocd app get example
