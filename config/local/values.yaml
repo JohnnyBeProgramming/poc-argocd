@@ -1,0 +1,59 @@
+global:
+   environment: local
+   replicate: down
+   storage:
+      client:
+         pullPolicy: IfNotPresent # <-- Only available locally
+      gateway:
+         pullPolicy: IfNotPresent # <-- Only available locally
+
+# Database server
+postgresql:
+   enabled: true
+   postgresqlUsername: nitro
+   existingSecret: db-secrets-postgres
+
+# https://businesscards.127.0.0.1.nip.io
+businesscards:
+   enabled: true
+   secrets: businesscards-secrets
+   api: 
+      craftHost: null # <-- Will be replaced with dynamic host in skaffold.yaml
+   client:
+      pullPolicy: IfNotPresent # <-- Only available locally
+      replicaCount: 1
+   ingress:
+      hosts:
+         - host: businesscards.127.0.0.1.nip.io
+      tls:
+         - hosts:
+              - businesscards.127.0.0.1.nip.io
+   oauth2:
+      enabled: true
+      configuration:
+         existingSecret: oauth2-proxy
+      extraArgs:
+         # The first few settings needs to be defined per environment
+         # - Note: 'redirect-url' should be the first argument (gets replaced by pull requests)...
+         - --redirect-url=https://businesscards.127.0.0.1.nip.io/oauth2/callback
+         - --whitelist-domain=.nip.io,login.microsoftonline.com
+         - --cookie-domain=.nip.io
+         - --cookie-name=businesscards_oauth2
+         # Define the (discoverable) OAuth2 login provider (and extra Issuers for external integrations)
+         - --oidc-issuer-url=https://login.microsoftonline.com/ce5330fc-da76-4db0-8b83-9dfdd963f09a/v2.0
+         - --extra-jwt-issuers="https://login.microsoftonline.com/ce5330fc-da76-4db0-8b83-9dfdd963f09a/v2.0=1e91de1d-7fa3-4e25-b74f-e42a67f3feec"
+         # Apply additional defaults (everything below)
+         - --cookie-secure=true
+         - --email-domain="*"
+         - --scope=openid
+         - --provider=oidc
+         # Ensure the token header is available
+         - --pass-access-token=true
+         - --set-xauthrequest=true
+         - --set-authorization-header=false
+         # Allow external apps (like cypress) to pass through with valid auth tokens headers, set by 'extra-jwt-issuers'.
+         - --skip-jwt-bearer-tokens=true
+         - --skip-provider-button=true
+         # Set additional defaults
+         - --silence-ping-logging=true
+         - --reverse-proxy=true
