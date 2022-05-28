@@ -6,6 +6,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
 spec:
+  ingressClassName: nginx
   rules:
   - host: argocd.127.0.0.1.nip.io
     http:
@@ -15,5 +16,5 @@ spec:
         backend:
           service:
             name: argocd-server
-            port: 
-              name: https
+            port:
+              number: 8080

@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-deployments
+spec:
+  project: default
+  source:
+    path: deployments
+    repoURL: https://github.com/JohnnyBeProgramming/poc-argocd.git
+    targetRevision: HEAD
+  destination:
+      server: "https://kubernetes.default.svc"
+      namespace: argocd
