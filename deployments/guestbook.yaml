@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: infra
+  name: guestbook
   namespace: argocd
   finalizers:
     # Finalizer that ensures that project is not deleted until it is not referenced by any application
     - resources-finalizer.argocd.argoproj.io
 spec:
   # Project description
-  description: Cloud Infrastructure
+  description: Project Guestbook
 
   # Allow manifests to deploy from any Git repos
   sourceRepos:
@@ -18,7 +18,9 @@ spec:
   destinations:
   - namespace: guestbook
     server: https://kubernetes.default.svc
+
 ---
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

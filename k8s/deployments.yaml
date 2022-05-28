@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: argo-deployments
 spec:
-  project: infra
+  project: default
   source:
     path: deployments
     repoURL: https://github.com/JohnnyBeProgramming/poc-argocd.git
