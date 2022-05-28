@@ -35,7 +35,8 @@ kind: Application
 metadata:
   name: guestbook
 spec:
-  project: guestbook
+  #project: guestbook
+  project: default
   source:
     path: examples/guestbook
     repoURL: https://github.com/JohnnyBeProgramming/poc-argocd.git
