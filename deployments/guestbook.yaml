@@ -1,7 +1,7 @@
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: argocd
+  name: guestbook
 spec: {}
 status: {}
 
