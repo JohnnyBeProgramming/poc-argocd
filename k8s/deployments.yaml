@@ -4,6 +4,8 @@ metadata:
   name: argo-deployments
 spec:
   project: infra
+  syncPolicy:
+    automated: {}  
   source:
     path: deployments
     repoURL: https://github.com/JohnnyBeProgramming/poc-argocd.git
